@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float sprintSpeed = 2f;
     [SerializeField] float hopAmount = 10f;
 
-    Quaternion lookAtDir;
     Quaternion lastRotation;
     Rigidbody rigidBody;
     float xThrow, zThrow;
@@ -21,28 +20,27 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-        lookAtDir = transform.rotation;
+        // we do this once to enable our collider, since for some reason it isn't always enabled 
+        Collider collider = GetComponent<Collider>();
+        collider.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isGrounded == true)
+        // comparison with true is redundant
+        if (isGrounded)
         {
             ProcessJump();
         }
+        
         ProcessRotation();
         ProcessTranslation();
+        // why is gravity being set per frame? this seems extremely inefficient
         SetGravity();
 
     }
-
-
-    private void ProcessHopping()
-    {
-        rigidBody.AddForce(Vector3.up * hopAmount * Time.deltaTime);
-    }
-
+    
     private void ProcessTranslation()
     {
         xThrow = Input.GetAxis("Horizontal");
@@ -86,19 +84,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             isGrounded = false;
-            rigidBody.AddForce(Vector3.up * jumpSpeed * Time.deltaTime);
+            rigidBody.AddForce(Vector3.up * (jumpSpeed * Time.deltaTime));
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground")
-        {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
-        }
+        // explicit string comparison is inefficient - use CompareTag instead
+        // additionally, there's no need for a conditional here at all
+        isGrounded = collision.gameObject.CompareTag("Ground");
     }
 }
