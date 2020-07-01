@@ -26,12 +26,12 @@ public class PlayerController : MonoBehaviour
         rigidBody.mass = 10000f;
         // we do this once to enable our collider, since for some reason it isn't always enabled
         // prefab structure may not be consistent so do some enabling/ disabling of things here too
-        Collider collider = GetComponent<Collider>();
-        collider.enabled = true;
+     //   Collider collider = GetComponent<Collider>();
+        //collider.enabled = true;
         animator = GetComponentInChildren<Animator>();
         animationSlave = animator.transform;
-        Collider badCollider = animationSlave.GetComponent<Collider>();
-        badCollider.enabled = false;
+       // Collider badCollider = animationSlave.GetComponent<Collider>();
+     //   badCollider.enabled = false;
     }
 
     // Update is called once per frame
@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
             {
                 // let the animation play normally; we're on the ground and moving
                 animator.enabled = true;
+                animator.SetBool("Hop", true);
             }
             else
             {
@@ -57,8 +58,8 @@ public class PlayerController : MonoBehaviour
                 // reset the animation, and then stop it
                 animationSlave.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                 animationSlave.localPosition =
-                    new Vector3(animationSlave.localPosition.x, -0.454f, animationSlave.localPosition.z);
-                animator.enabled = false;   
+                    new Vector3(animationSlave.localPosition.x, 0f, animationSlave.localPosition.z);
+                animator.SetBool ("Hop", false);   
             }
         }
         else
@@ -66,8 +67,8 @@ public class PlayerController : MonoBehaviour
             // reset the animation, and then stop it
             animationSlave.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             animationSlave.localPosition =
-                new Vector3(animationSlave.localPosition.x, -0.454f, animationSlave.localPosition.z);
-            animator.enabled = false;   
+                new Vector3(animationSlave.localPosition.x, 0f, animationSlave.localPosition.z);
+            animator.SetBool("Hop", false);
         }
     }
 
@@ -76,7 +77,7 @@ public class PlayerController : MonoBehaviour
         Vector3 rayOrign = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         isGrounded = Physics.Raycast(rayOrign, Vector3.down, 1.2f, layerMask);
         Debug.DrawLine(rayOrign, rayOrign + Vector3.down);
-
+        Debug.Log("is Grounded");
         ProcessMovement();
         
         if (isGrounded && Input.GetButtonDown("Jump"))
