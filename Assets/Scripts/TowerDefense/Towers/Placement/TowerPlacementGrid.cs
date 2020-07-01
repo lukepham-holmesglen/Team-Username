@@ -49,6 +49,11 @@ namespace TowerDefense.Towers.Placement
 		PlacementTile[,] m_Tiles;
 
 		/// <summary>
+		/// The layermask used to detect whether tower & environment collision happens
+		/// </summary>
+		int layerMask = 1 << 16;
+		
+		/// <summary>
 		/// Converts a location in world space into local grid coordinates.
 		/// </summary>
 		/// <param name="worldLocation"><see cref="Vector3"/> indicating world space coordinates to convert.</param>
@@ -101,6 +106,23 @@ namespace TowerDefense.Towers.Placement
 			}
 
 			IntVector2 extents = gridPos + size;
+			
+			// Check if colliding with something
+			Vector3 placementLocation = GridToWorld(gridPos, size);
+			Vector3 placementExtents = new Vector3(0.75f, 0.0f, 0.75f);
+			
+			bool hitOutput = Physics.BoxCast(placementLocation, placementExtents, Vector3.up, new Quaternion(), 20.0f, layerMask);
+			if (hitOutput)
+			{
+				return TowerFitStatus.Overlaps;
+			}
+			
+			// Now check if there's actually ground beneath us
+			hitOutput = Physics.Raycast(placementLocation, Vector3.down, 1.0f, layerMask);
+			if (!hitOutput)
+			{
+				return TowerFitStatus.OutOfBounds;
+			}
 
 			// Out of range of our bounds
 			if ((gridPos.x < 0) || (gridPos.y < 0) ||
