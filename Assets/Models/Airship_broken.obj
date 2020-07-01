@@ -4,7 +4,7 @@
 o 
 
 # material
-mtllib Airship brokenOBJ.mtl
+mtllib Airship broken.mtl
 usemtl palette
 
 # normals
