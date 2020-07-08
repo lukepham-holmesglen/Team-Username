@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e4035901ee40bba7c0866d2c6338a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turret: {fileID: 0}
+  turret: {fileID: 4398804518324873648}
   turretXRotationRange: {x: 0, y: 359}
   onlyYTurretRotation: 0
   searchRate: 0

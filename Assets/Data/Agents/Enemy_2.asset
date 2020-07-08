@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 910bcb715cd3344619df786cb0658efb, type: 3}
+  m_Name: Enemy_2
+  m_EditorClassIdentifier: 
+  agentName: Hoverbuggy
+  agentDescription: Light and fast
+  agentPrefab: {fileID: 7735033988084031124, guid: 78bd2f19cad633743a3ae754ed1465d0,
+    type: 3}
